@@ -1,6 +1,6 @@
 console.log("Script chargé !");
 
-bringAllTeddies();
+// bringAllTeddies();
 function bringAllTeddies() {
   const xhr = new XMLHttpRequest();
   xhr.open("GET","http://localhost:3000/api/teddies");
@@ -27,3 +27,54 @@ function bringAllTeddies() {
   }
   xhr.send();
 }
+
+
+getArticles();
+
+//Récupérer les articles depuis l'API via xhr
+function getArticles() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET","http://localhost:3000/api/teddies");
+    xhr.onload = function() {
+      // document.querySelector(".products").innerHTML = "";
+      // let productList = document.querySelector(".products");
+      if(this.status == 200) {
+        const articles = JSON.parse(this.responseText);
+        articles.forEach(function(article) {
+          // productList.innerHTML += `Salut!`
+          let productCard = document.createElement("div");
+          document.querySelector(".products").appendChild(productCard);
+          productCard.classList.add("product");
+    
+          let productLink = document.createElement("a");
+          productCard.appendChild(productLink);
+          // productLink.href = `product.html?id=${article._id}`;
+          productLink.href = `product.html?id=` + article._id;
+    
+          let productImgDiv = document.createElement("div");
+          productLink.appendChild(productImgDiv);
+          productImgDiv.classList.add("product__image");
+    
+          let productImg = document.createElement("img");
+          productImgDiv.appendChild(productImg);
+          productImg.src = article.imageUrl;
+    
+          let productInfo = document.createElement("div");
+          productLink.appendChild(productInfo);
+          productInfo.classList.add("product__info");
+    
+          let productName = document.createElement("p");
+          productInfo.appendChild(productName);
+          productName.classList.add("product__info--name");
+          productName.innerHTML = article.name;
+    
+          let productPrice = document.createElement("p");
+          productInfo.appendChild(productPrice);
+          productPrice.classList.add("product__info--price");
+          //Comment montrer les ,00 à la fin des prix ? 39,00 € au lieu de 39 € ex.
+          productPrice.innerHTML = (article.price)/100 + " €";
+        })
+      }
+    }
+    xhr.send();
+  }
