@@ -66,3 +66,66 @@ function getArticle(id) {
 
   const storage = new Storage();
   let itemsArray = storage.getItemsFromLS();
+
+  addToBasketBtn.addEventListener("click", () => {
+    
+    if(productQuantity.value > 0 && productQuantity.value <=100) {
+
+      console.log("Product ID : " + productDiv.id +", Product quantity: " + productQuantity.value + ", Product color: " + productColor.value);
+  
+      // Création d'un nouvel élément à mettre dans le panier:
+      let newItem = {
+        _id : id,
+        name : productName.innerHTML,
+        price : parseFloat(productPrice.innerHTML),
+        imageUrl : productImg.src,
+        color : productColor.value,
+        quantity : parseInt(productQuantity.value)
+      };
+
+      console.log("A new item has been created :");
+      console.log(newItem);
+      console.log(newItem._id);
+
+
+      if(itemsArray.length === 0) {
+        itemsArray.push(newItem);
+        console.log("The new item has been added to the Local Storage");
+      } else {
+
+        let controlArr = [];
+        let controlArrN = false;
+  
+        itemsArray.forEach(function(item) {
+          //Si le même ID et couleur existent déjà dans le panier, on augmente sa quantité:
+          if((item._id === newItem._id) && (item.color === newItem.color)) {
+            controlArr.push(1);
+            item.quantity += newItem.quantity;
+          }
+          // if(item._id !== newItem._id) {
+          //   controlArr.push(0);
+          // }
+        });
+  
+        if(!(controlArr.includes(1))) {
+          console.log("Cet élément n'existe pas, donc push le !");
+          itemsArray.push(newItem);
+        }
+        
+      }
+      
+      // Actualisation de LocalStorage
+      localStorage.setItem("itemsArray", JSON.stringify(itemsArray));
+      
+      addToBasketBtn.style.visibility = "hidden";
+      successMsg.style.visibility = "visible";
+      successMsgText.innerHTML = `${productQuantity.value} ${productName.innerHTML} (${productColor.value}) a été ajouté au panier !`;
+      setTimeout("location.reload(true);", 2000);
+    }
+    else {
+      console.log("productQuantity value invalid");
+      successMsg.style.visibility = "visible";
+      successMsgText.innerHTML = `Sélectionnez une quantité entre 1 et 100 s'il vous plaît`;
+      productQuantity.value = 1;
+    }
+  });
