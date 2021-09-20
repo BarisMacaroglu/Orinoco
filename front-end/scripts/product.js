@@ -67,6 +67,9 @@ function getArticle(id) {
   const storage = new Storage();
   let itemsArray = storage.getItemsFromLS();
 
+  // Pour afficher le nombre d'articles dans le Local Storage à côté d'icon de panier
+  storage.getItemQty();
+
   addToBasketBtn.addEventListener("click", () => {
     
     if(productQuantity.value > 0 && productQuantity.value <=100) {

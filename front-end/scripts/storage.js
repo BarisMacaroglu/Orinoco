@@ -22,4 +22,17 @@ class Storage {
         
     }
 
+    getItemQty() {
+        let itemQty = this.getItemsFromLS().length;
+
+        if(itemQty > 0) {
+            const basketQteInf = document.createElement("p");
+            document.querySelector(".nav__basket").appendChild(basketQteInf);
+            basketQteInf.classList.add("numberProduct");
+            basketQteInf.innerHTML = itemQty;
+          }
+          
+        return itemQty;
+    }
+
 }
