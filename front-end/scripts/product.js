@@ -71,6 +71,8 @@ function getArticle(id) {
     
     if(productQuantity.value > 0 && productQuantity.value <=100) {
 
+      successMsg.style.visibility = "hidden";
+
       console.log("Product ID : " + productDiv.id +", Product quantity: " + productQuantity.value + ", Product color: " + productColor.value);
   
       // Création d'un nouvel élément à mettre dans le panier:
@@ -93,22 +95,26 @@ function getArticle(id) {
         console.log("The new item has been added to the Local Storage");
       } else {
 
-        let controlArr = [];
-        let controlArrN = false;
+        // let controlArr = [];
+        let controlArr = false;
   
         itemsArray.forEach(function(item) {
           //Si le même ID et couleur existent déjà dans le panier, on augmente sa quantité:
           if((item._id === newItem._id) && (item.color === newItem.color)) {
-            controlArr.push(1);
+            // controlArr.push(1);
             item.quantity += newItem.quantity;
+            controlArr = true;
           }
           // if(item._id !== newItem._id) {
           //   controlArr.push(0);
           // }
         });
   
-        if(!(controlArr.includes(1))) {
-          console.log("Cet élément n'existe pas, donc push le !");
+        // if(!(controlArr.includes(1))) {
+        //   console.log("Cet élément n'existe pas, donc push le !");
+        //   itemsArray.push(newItem);
+        // }
+        if(controlArr === false) {
           itemsArray.push(newItem);
         }
         
@@ -116,11 +122,9 @@ function getArticle(id) {
       
       // Actualisation de LocalStorage
       localStorage.setItem("itemsArray", JSON.stringify(itemsArray));
+
+      successBox();
       
-      addToBasketBtn.style.visibility = "hidden";
-      successMsg.style.visibility = "visible";
-      successMsgText.innerHTML = `${productQuantity.value} ${productName.innerHTML} (${productColor.value}) a été ajouté au panier !`;
-      setTimeout("location.reload(true);", 2000);
     }
     else {
       console.log("productQuantity value invalid");
@@ -129,3 +133,34 @@ function getArticle(id) {
       productQuantity.value = 1;
     }
   });
+
+  function successBox() {
+
+    const confirmationContainer = document.querySelector(".confirmation__container");
+    const closeBoxBtn = document.querySelector(".close__box");
+    const confirmationText = document.querySelector(".confirmation__product--infos");
+    const imgInBox = document.querySelectorAll(".img")[1];
+
+    confirmationContainer.style.visibility = "visible";
+    productDiv.style.visibility = "hidden";
+
+    imgInBox.src = productImg.src;
+    let subTotal = parseFloat(productPrice.innerHTML)*(productQuantity.value);
+
+    confirmationText.innerHTML = `${productQuantity.value} x ${productName.innerHTML} (${productColor.value}) :  <b> ${ new Intl.NumberFormat("fr-FR", {
+      style: "currency",
+      currency: "EUR",
+    }).format(subTotal)} <b>`;
+
+
+
+    closeBoxBtn.addEventListener("click", () => {
+      // confirmationContainer.style.visibility = "hidden";
+      setTimeout("location.reload(true);", 10);
+    });
+
+    // addToBasketBtn.style.visibility = "hidden";
+    // successMsg.style.visibility = "visible";
+    // successMsgText.innerHTML = `${productQuantity.value} ${productName.innerHTML} (${productColor.value}) a été ajouté au panier !`;
+    // setTimeout("location.reload(true);", 2000);
+}

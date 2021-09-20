@@ -40,7 +40,7 @@
             </a>
         </div> -->
 
-        <div class="container">
+        <div class="container container-main">
             <div id="" class="product">
                 <div class="product__image">
                     <img src="" alt="" class="img">
@@ -58,7 +58,10 @@
                         </div>
                         <div class="product__quantity">
                             <label for="quantity">Quantité :</label>
-                            <input type="number" name="quantity" id="quantity" value="1" min="1">
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="100">
+                        </div>
+                        <div class="added__msg">
+                            <p class="added__msg--text"></p>
                         </div>
                     </div>
                     <div class="product__button">
@@ -66,8 +69,23 @@
                     </div>
                 </div>
             </div>
-            <div class="added__msg">
-                <p class="added__msg--text">a été ajouté au panier</p>
+            <div class="confirmation__container">
+                <div class="confirmation--msg">
+                    <div class="confirmation">
+                        <p class="confirmation--msg-text"><i class="fas fa-check"></i> Ajouté au panier !</p>
+                        <p class="close__box"><i class="fas fa-times"></i></p>
+                    </div>
+                    <div class="confirmation--msg-links">
+                        <a class="confirmation--msg-continue" href="index.html">Continuer mes achats</a>
+                        <a class="confirmation--msg-basket" href="basket.html">Voir mon panier</a>
+                    </div>
+                </div>
+                <div class="confirmation__product">
+                    <img src="" alt="" class="img">
+                    <div class="confirmation__product--infos">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -81,6 +99,7 @@
         </div>
     </footer>
 
+    <script src="scripts/storage.js"></script>
     <script src="scripts/product.js"></script>
     
 </body>
