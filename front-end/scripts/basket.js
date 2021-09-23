@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             productButtons.appendChild(productDeleteBtn);
             productDeleteBtn.classList.add("delete__article");
             productDeleteBtn.innerHTML = "Supprimer cet article";
+            productDeleteBtn.addEventListener("click", storage.deleteItem);
 
             let productPrice = document.createElement("h3");
             productTitle.appendChild(productPrice);
@@ -106,4 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
             currency: "EUR",
         }).format(totalPrice);
     }
+});
+
+clearBasketBtn.addEventListener("click", () => {
+    localStorage.clear();
+    setTimeout("location.reload(true);", 1000);
 });

@@ -35,4 +35,27 @@ class Storage {
         return itemQty;
     }
 
+    deleteItem(e) {
+        console.log(e);
+        console.log(e.target);
+        console.log(e.target.parentElement.parentElement.parentElement.parentElement.id); //Returns the ID of the product!
+        const productID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        
+        console.log(e.target.parentElement.parentElement.children[1].textContent); //Returns the color of the product
+        const productColor = e.target.parentElement.parentElement.children[1].textContent;
+        console.log(productColor);
+
+        let articlesArray = JSON.parse(localStorage.getItem("itemsArray"));
+
+        articlesArray.forEach(function(item, index) {
+            if((item._id === productID) && (item.color === productColor)) {
+                articlesArray.splice(index, 1);
+            }
+        });
+    
+        localStorage.setItem("itemsArray", JSON.stringify(articlesArray));
+    
+        setTimeout(location.reload(true));  
+    }
+
 }
