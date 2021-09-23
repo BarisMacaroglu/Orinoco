@@ -152,6 +152,11 @@ button {
   cursor: pointer;
 }
 
+.if-basket-empty {
+  text-align: center;
+  margin: 100px 0 100px 0;
+}
+
 @media screen and (max-width: 550px) {
   .product__info {
     -webkit-box-orient: vertical;
