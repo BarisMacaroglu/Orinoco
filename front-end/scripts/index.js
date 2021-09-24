@@ -87,8 +87,9 @@ function getArticlesFetch() {
     return res.json();
   })
   .catch((error) => {
+    console.log(error);
     let productsContainer = document.querySelector("#products__container");
-    productsContainer.innerHTML = "Problème de serveur";
+    productsContainer.innerHTML = `Il y a eu un problème : ${error}`;
     productsContainer.style.padding = "40px";
   })
 

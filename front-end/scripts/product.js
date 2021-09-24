@@ -34,7 +34,7 @@ function getArticle(id) {
     
     .catch((error) => {
       console.log(error);
-      container.innerHTML = "Problème de serveur";
+      container.innerHTML = `Il y a eu un problème : ${error}`;
       container.style.textAlign = "center";
       container.style.padding = "40px";
     })
