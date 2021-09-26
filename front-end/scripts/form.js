@@ -11,6 +11,7 @@ class Form {
     constructor() {
     }
     
+    // Renvoie "true" si le formulaire est validé
     static validateForm() {
 
         // trim() pour enlever les espaces vides
@@ -35,6 +36,20 @@ class Form {
             console.log("Le formulaire est validé");
             return true;
         }
+    }
+
+    // Crée et renvoie un objet de contact
+    static createContactObj() {
+
+        const contactObj = {
+            firstName: firstName.value.trim(),
+            lastName: lastName.value.trim(),
+            address: address.value.trim(),
+            city: city.value.trim(),
+            email: email.value.trim(),
+        };
+        
+        return contactObj;
     }
 
 }

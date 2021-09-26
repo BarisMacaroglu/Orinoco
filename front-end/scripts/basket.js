@@ -5,6 +5,7 @@ const contactSection = document.querySelector("#contact");
 const emtpyBasket = document.querySelector(".if-basket-empty");
 const totalPriceDiv = document.querySelector(".bill__info--total");
 const clearBasketBtn = document.querySelector(".clear__basket--btn");
+const commandeBtn = document.querySelector(".commande__btn");
 
 const storage = new Storage();
 let articlesArray = storage.getItemsFromLS();
@@ -113,3 +114,78 @@ clearBasketBtn.addEventListener("click", () => {
     localStorage.clear();
     setTimeout("location.reload(true);", 1000);
 });
+
+commandeBtn.addEventListener("click", (e) => {
+    if(Form.validateForm() === true) {
+        confirmOrder();
+    }
+    e.preventDefault();
+});
+
+function confirmOrder() {
+
+    let itemsArray = JSON.parse(localStorage.getItem("itemsArray"));
+    // console.log(itemsArray);
+    
+    let itemsID = [];
+    itemsArray.forEach(function(item) {
+        console.log(item._id);
+        itemsID.push(item._id);
+    });
+    
+    // console.log(itemsID);
+    
+    // Il faut un objet de contact et un tableau d'ID des produits :
+    const order = {
+        contact: Form.createContactObj(),
+        products: itemsID,
+    };
+
+    // Un objet order a été créé
+
+    // const order = {
+    //     contact: {
+    //         firstName: firstName.value.trim(),
+    //         lastName: lastName.value.trim(),
+    //         address: address.value.trim(),
+    //         city: city.value.trim(),
+    //         email: email.value.trim(),
+    //     },
+    //     products: itemsID,
+    // };
+
+    //    console.log(order);
+    //    console.log(typeof order);
+    //    console.log(JSON.stringify(order));
+            
+    // ---- Envoie de la commande (la requête POST) au back-end ----
+
+    // Création de l'en-tête de la requête
+    // L'objet order doit être converti au String
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(order),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+        },
+    };
+    // console.log(options);
+    
+    // Préparation du prix formaté pour l'afficher sur la prochaine page
+    let priceConfirmation = document.querySelector(".bill__info--total").innerText;
+
+    // Envoie de la requête avec l'en-tête. 
+    // On changera la page et le localStorage ne contiendra que l'orderId (envoyé par le back-end) et le prix total.
+    
+    fetch("http://localhost:3000/api/teddies/order", options)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        // localStorage.clear();
+        localStorage.setItem("orderId", data.orderId);
+        localStorage.setItem("total", priceConfirmation);
+        
+        document.location.href = "/front-end/confirmation.html";
+    })
+    .catch((err) => console.log("Il y a une erreur : " + err));        
+}
