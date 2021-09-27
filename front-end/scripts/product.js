@@ -15,9 +15,7 @@ const productDescription = document.querySelector(".product__description");
 const productColor = document.querySelector("#color");
 const productQuantity = document.querySelector("#quantity");
 
-const addToBasketBtn = document.querySelector(".add-to-basket");
-const successMsg = document.querySelector(".added__msg");
-const successMsgText = document.querySelector(".added__msg--text");
+// const addToBasketBtn = document.querySelector(".add-to-basket");
 
 getArticle(id);
 
@@ -59,6 +57,19 @@ function getArticle(id) {
         colorOption.innerHTML = article.colors[i];
         productColor.appendChild(colorOption);
       }
+
+      for(let i = 1; i <= 100; i++) {
+        let quantityOption = document.createElement("option");
+        quantityOption.innerHTML = i;
+        productQuantity.appendChild(quantityOption);
+      }
+
+      const addToBasketBtn = document.createElement("button");
+      document.querySelector(".product__button").appendChild(addToBasketBtn);
+      addToBasketBtn.classList.add("btn");
+      addToBasketBtn.innerHTML = "Ajouter au panier";
+      addToBasketBtn.addEventListener("click", addToBasket);
+
     });
   }
 
@@ -67,103 +78,75 @@ function getArticle(id) {
   const storage = new Storage();
   let itemsArray = storage.getItemsFromLS();
 
-  // Pour afficher le nombre d'articles dans le Local Storage à côté d'icon de panier
+  // Pour afficher le nombre de produit dans le panier à côté de l'icône de panier
   storage.getItemQty();
 
-  addToBasketBtn.addEventListener("click", () => {
-    
-    if(productQuantity.value > 0 && productQuantity.value <=100) {
-
-      successMsg.style.visibility = "hidden";
-
-      console.log("Product ID : " + productDiv.id +", Product quantity: " + productQuantity.value + ", Product color: " + productColor.value);
+  function addToBasket() {
+    console.log("Product ID : " + productDiv.id +", Product quantity: " + productQuantity.value + ", Product color: " + productColor.value);
   
-      // Création d'un nouvel élément à mettre dans le panier:
-      let newItem = {
-        _id : id,
-        name : productName.innerHTML,
-        price : parseFloat(productPrice.innerHTML),
-        imageUrl : productImg.src,
-        color : productColor.value,
-        quantity : parseInt(productQuantity.value)
-      };
-
-      console.log("A new item has been created :");
-      console.log(newItem);
-      console.log(newItem._id);
-
-
-      if(itemsArray.length === 0) {
-        itemsArray.push(newItem);
-        console.log("The new item has been added to the Local Storage");
-      } else {
-
-        // let controlArr = [];
-        let controlArr = false;
+    // Création d'un nouvel élément à mettre dans le panier:
+    let newItem = {
+      _id : id,
+      name : productName.innerHTML,
+      price : parseFloat(productPrice.innerHTML),
+      imageUrl : productImg.src,
+      color : productColor.value,
+      quantity : parseInt(productQuantity.value)
+    };
   
-        itemsArray.forEach(function(item) {
-          //Si le même ID et couleur existent déjà dans le panier, on augmente sa quantité:
-          if((item._id === newItem._id) && (item.color === newItem.color)) {
-            // controlArr.push(1);
-            item.quantity += newItem.quantity;
-            controlArr = true;
-          }
-          // if(item._id !== newItem._id) {
-          //   controlArr.push(0);
-          // }
-        });
+    console.log("Un nouvel élément a été créé : ");
+    console.log(newItem);
+    console.log(newItem._id);
   
-        // if(!(controlArr.includes(1))) {
-        //   console.log("Cet élément n'existe pas, donc push le !");
-        //   itemsArray.push(newItem);
-        // }
-        if(controlArr === false) {
-          itemsArray.push(newItem);
+    // Pour ajouter le premier élément au panier qui est vide :
+    if(itemsArray.length === 0) {
+      itemsArray.push(newItem);
+      console.log("Le premier élément a été ajouté au panier");
+    } else {
+
+      // On teste si le produit est déjà présent (même ID, même couleur), donc on parcourt l'itemsArray avec forEach et compare ID et couleurs de chaque élément du tableau.
+      // Si l'ID et la couleur sont identiques, on incrémente le nombre du produit existant, sinon on ajoute une nouvelle ligne au panier.
+      let isTheSame = false;
+
+      itemsArray.forEach(function(item) {
+        if((item._id === newItem._id) && (item.color === newItem.color)) {
+          isTheSame = true;
+          item.quantity += newItem.quantity;
         }
-        
+      });
+
+      // On ajoute une nouvelle ligne au panier : 
+      if(isTheSame === false) {
+        itemsArray.push(newItem);
       }
-      
-      // Actualisation de LocalStorage
-      localStorage.setItem("itemsArray", JSON.stringify(itemsArray));
-
-      successBox();
-      
     }
-    else {
-      console.log("productQuantity value invalid");
-      successMsg.style.visibility = "visible";
-      successMsgText.innerHTML = `Sélectionnez une quantité entre 1 et 100 s'il vous plaît`;
-      productQuantity.value = 1;
-    }
-  });
+    
+    // Actualisation de LocalStorage
+    localStorage.setItem("itemsArray", JSON.stringify(itemsArray));
 
-  function successBox() {
+    confirmationBox();
 
-    const confirmationContainer = document.querySelector(".confirmation__container");
-    const closeBoxBtn = document.querySelector(".close__box");
-    const confirmationText = document.querySelector(".confirmation__product--infos");
-    const imgInBox = document.querySelectorAll(".img")[1];
+  }
 
-    confirmationContainer.style.visibility = "visible";
-    productDiv.style.visibility = "hidden";
+  function confirmationBox() {
 
-    imgInBox.src = productImg.src;
-    let subTotal = parseFloat(productPrice.innerHTML)*(productQuantity.value);
-
-    confirmationText.innerHTML = `${productQuantity.value} x ${productName.innerHTML} (${productColor.value}) :  <b> ${ new Intl.NumberFormat("fr-FR", {
-      style: "currency",
-      currency: "EUR",
-    }).format(subTotal)} <b>`;
-
-
-
-    closeBoxBtn.addEventListener("click", () => {
-      // confirmationContainer.style.visibility = "hidden";
-      setTimeout("location.reload(true);", 10);
-    });
-
-    // addToBasketBtn.style.visibility = "hidden";
-    // successMsg.style.visibility = "visible";
-    // successMsgText.innerHTML = `${productQuantity.value} ${productName.innerHTML} (${productColor.value}) a été ajouté au panier !`;
-    // setTimeout("location.reload(true);", 2000);
-}
+      const confirmationContainer = document.querySelector(".confirmation__container");
+      const closeBoxBtn = document.querySelector(".close__box");
+      const confirmationText = document.querySelector(".confirmation__product--infos");
+      const imgInBox = document.querySelectorAll(".img")[1];
+  
+      confirmationContainer.style.visibility = "visible";
+      productDiv.style.visibility = "hidden";
+  
+      imgInBox.src = productImg.src;
+      let subTotal = parseFloat(productPrice.innerHTML)*(productQuantity.value);
+  
+      confirmationText.innerHTML = `${productQuantity.value} x ${productName.innerHTML} (${productColor.value}) :  <b> ${ new Intl.NumberFormat("fr-FR", {
+        style: "currency",
+        currency: "EUR",
+      }).format(subTotal)} <b>`;
+  
+      closeBoxBtn.addEventListener("click", () => {
+        setTimeout("location.reload(true);", 10);
+      });
+  }

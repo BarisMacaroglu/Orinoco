@@ -75,10 +75,17 @@ a {
 
 .product .product__infos .product__color #color {
   font-size: 16px;
+  padding: 3px;
 }
 
 .product .product__infos .product__quantity {
   margin: 12px;
+}
+
+.product .product__infos .product__quantity #quantity {
+  width: 60px;
+  font-size: 15px;
+  padding: 3px;
 }
 
 .product__button {
@@ -100,6 +107,7 @@ a {
       align-content: center;
   align-self: center;
   width: 60%;
+  margin-top: 50px;
 }
 
 .product__button .btn {
@@ -132,6 +140,7 @@ a {
 .confirmation__container {
   border: 3px solid green;
   background-color: white;
+  border-radius: 6px;
   width: 90%;
   height: 50%;
   position: fixed;
@@ -202,14 +211,16 @@ a {
 }
 
 .confirmation__container .confirmation--msg .confirmation--msg-links .confirmation--msg-continue {
-  background-color: tomato;
+  background-color: #8e44ad;
+  color: white;
   border-radius: 4px;
   padding: 6px;
   margin: 6px;
 }
 
 .confirmation__container .confirmation--msg .confirmation--msg-links .confirmation--msg-basket {
-  background-color: tomato;
+  background-color: #8e44ad;
+  color: white;
   border-radius: 4px;
   padding: 6px;
   margin: 6px;

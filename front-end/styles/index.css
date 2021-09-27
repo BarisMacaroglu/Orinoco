@@ -29,6 +29,7 @@ header .container nav {
 
 header .container nav a {
   text-decoration: none;
+  color: purple;
 }
 
 header .container nav a .nav__logo {
@@ -233,6 +234,7 @@ footer .container nav a {
   text-decoration: none;
   font-size: 20px;
   margin: 12px;
+  color: purple;
 }
 
 @media screen and (max-width: 500px) {

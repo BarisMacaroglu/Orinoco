@@ -19,18 +19,12 @@ a {
     margin: 36px 12px;
     // display: none;
     .product__image {
-        // width: 100%;
-        // display: flex;
-        // justify-content: center;
-        // max-width: 700px;
         img {
             width: 100%;
             border-radius: 10px;
-            // max-width: 900px;
         }
     }
     .product__infos {
-        // width: 20%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -55,10 +49,16 @@ a {
             margin: 24px 12px 50px 12px;
             #color {
                 font-size: 16px;
+                padding: 3px;
             }
         }
         .product__quantity {
             margin: 12px;
+            #quantity {
+                width: 60px;
+                font-size: 15px;
+                padding: 3px;
+            }
         }
     }
 }
@@ -76,6 +76,7 @@ a {
     align-content: center;
     align-self: center;
     width: 60%;
+    margin-top: 50px;
     .btn {
         padding: 20px;
         border-radius: 12px;
@@ -100,10 +101,11 @@ a {
     }
 }
 
-// confirmation container: mobile first
+// confirmation container : mobile first
 .confirmation__container {
     border: 3px solid green;
     background-color: white;
+    border-radius: 6px;
     width: 90%;
     height: 50%;
     position: fixed;
@@ -119,7 +121,6 @@ a {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            // width: 100%;
             .confirmation--msg-text {
                 color: green;
                 text-align: center;
@@ -145,13 +146,15 @@ a {
             justify-content: space-between;
             align-items: center;
             .confirmation--msg-continue {
-                background-color: tomato;
+                background-color: #8e44ad;
+                color: white;
                 border-radius: 4px;
                 padding: 6px;
                 margin: 6px;
             }
             .confirmation--msg-basket {
-                background-color: tomato;
+                background-color: #8e44ad;
+                color: white;
                 border-radius: 4px;
                 padding: 6px;
                 margin: 6px;
@@ -180,18 +183,7 @@ a {
 @media screen and (max-width: 900px) {
     .product {
         flex-direction: column;
-        // .product__image {
-        //     display: flex;
-        //     justify-content: center;
-        //     img {
-        //         max-width: 700px;
-        //     }
-        // }
         .product__infos {
-
-            // .product__title {
-            //     flex-direction: column;
-            // }
             .product__description {
                 width: 85%;
             }
@@ -200,9 +192,6 @@ a {
 }
 
 @media screen and (max-width: 300px) {
-    // .product__title {
-    //     flex-direction: column;
-    // }
     .product__description {
         width: 100%;
     }

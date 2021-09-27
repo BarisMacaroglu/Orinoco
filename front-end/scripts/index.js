@@ -72,7 +72,6 @@ function getArticlesXHR() {
           let productPrice = document.createElement("p");
           productInfo.appendChild(productPrice);
           productPrice.classList.add("product__info--price");
-          //Comment montrer les ,00 à la fin des prix ? 39,00 € au lieu de 39 € ex.
           productPrice.innerHTML = (article.price)/100 + " €";
         })
       }
@@ -106,7 +105,6 @@ function getArticlesFetch() {
 
       let productLink = document.createElement("a");
       productCard.appendChild(productLink);
-      //Question sur l'attribue des href !!!
       productLink.href = `product.html?id=${resultsAPI[article]._id}`;
 
       let productImgDiv = document.createElement("div");
@@ -132,11 +130,17 @@ function getArticlesFetch() {
       // productPrice.innerHTML = (resultsAPI[article].price)/100 + " €";
 
       resultsAPI[article].price = (resultsAPI[article].price) / 100;
+
+      // La fonction pour montrer les prix correctement : 
       productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
         style: "currency",
         currency: "EUR",
-      }).format(resultsAPI[article].price);
+      }).format(resultsAPI[article].price); // Affiche '39,00 €' au lieu de '39 €' par exemple
       
     }
   })
 }
+
+// Pour montrer le nombre de produit dans le panier à côté de l'icône de panier : 
+const storage = new Storage();
+storage.getItemQty();
