@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contactSection.style.display = "none";
     }
     else {
-        // S'il y a quelque chose dans le panier, on supprime le message : "votre panier est vide" et on affiche les produits et le formulaire de contact.
+        // S'il y a quelque chose dans le panier, on supprime le message de : "votre panier est vide" et on affiche les produits et le formulaire de contact.
         emtpyBasket.style.display = "none";
 
         // On affiche le nombre d'article total dans le panier

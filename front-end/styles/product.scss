@@ -90,17 +90,6 @@ a {
     }
 }
 
-.added__msg {
-    visibility: hidden;
-    display: flex;
-    justify-content: center;
-    margin: 24px;
-    .added__msg--text {
-        color: red;
-        font-size: 24px;
-    }
-}
-
 // confirmation container : mobile first
 .confirmation__container {
     border: 3px solid green;

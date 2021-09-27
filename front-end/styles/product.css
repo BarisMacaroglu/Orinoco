@@ -121,22 +121,6 @@ a {
   cursor: pointer;
 }
 
-.added__msg {
-  visibility: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin: 24px;
-}
-
-.added__msg .added__msg--text {
-  color: red;
-  font-size: 24px;
-}
-
 .confirmation__container {
   border: 3px solid green;
   background-color: white;
