@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation</title>
+    <title>Confirmation d'achat | Orinoco</title>
 
     <!-- CSS  -->
     <link rel="stylesheet" href="styles/index.css">
@@ -17,6 +17,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html">
+                    <h1 class="nav__logo">ORINOCO</h1>
+                </a>
+                <a href="basket.html">
+                    <div class="nav__basket">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Mon panier</p>
+                        <!-- <p class="numberProduct">2</p> -->
+                    </div>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="confirmation">
+                <i class="fas fa-check"></i>
+                <h1>Nous avons bien reçu votre commande !</h1>
+                <div class="order__infos">
+                    <p class="order__infos--id">Le numéro de la commande : <span class="order-id"></span></p>
+                    <p class="order__infos--price">Le montant total : <span class="total-price"></span></p>
+                </div>
+                <h2>Merci d'avoir choisi Orinoco !</h2>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="footer__link">Contact</a>
+                <a href="" class="footer__link">Mentions légales</a>
+                <a href="" class="footer__link">Devenir partenaire</a>
+            </nav>
+        </div>
+    </footer>
     
     <script src="scripts/confirmation.js"></script>
 </body>
