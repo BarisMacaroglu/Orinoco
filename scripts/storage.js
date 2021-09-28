@@ -23,6 +23,7 @@ class Storage {
     }
 
     getItemQty() {
+        // Pour afficher le nombre de produit dans le panier à côté de l'icône de panier :
         let itemQty = this.getItemsFromLS().length;
 
         if(itemQty > 0) {
@@ -31,19 +32,14 @@ class Storage {
             basketQteInf.classList.add("numberProduct");
             basketQteInf.innerHTML = itemQty;
           }
-          
         return itemQty;
     }
 
     deleteItem(e) {
-        console.log(e);
-        console.log(e.target);
-        console.log(e.target.parentElement.parentElement.parentElement.parentElement.id); //Returns the ID of the product!
-        const productID = e.target.parentElement.parentElement.parentElement.parentElement.id;
         
-        console.log(e.target.parentElement.parentElement.children[1].textContent); //Returns the color of the product
-        const productColor = e.target.parentElement.parentElement.children[1].textContent;
-        console.log(productColor);
+        const productID = e.target.parentElement.parentElement.parentElement.parentElement.id;  // L'ID du produit
+        
+        const productColor = e.target.parentElement.parentElement.children[1].textContent;  // La couleur du produit
 
         let articlesArray = JSON.parse(localStorage.getItem("itemsArray"));
 

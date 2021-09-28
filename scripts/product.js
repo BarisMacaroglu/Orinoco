@@ -3,10 +3,10 @@ console.log("Script chargé !");
 let params = new URL(document.location).searchParams;
 let id = params.get("id");
 
-// Pour donner le nom du produit à la page :
+// Pour nommer la page dynamiquement :
 const pageTitle = document.querySelector("title");
 
-const container = document.querySelector(".container");
+const mainContainer = document.querySelector(".container-main");
 const productDiv = document.querySelector(".product");
 const productImg = document.querySelector(".img");
 const productName = document.querySelector(".product__name");
@@ -14,27 +14,39 @@ const productPrice = document.querySelector(".product__price");
 const productDescription = document.querySelector(".product__description");
 const productColor = document.querySelector("#color");
 const productQuantity = document.querySelector("#quantity");
+const storage = new Storage();
 
-// const addToBasketBtn = document.querySelector(".add-to-basket");
 
-getArticle(id);
+main();
 
-// La fonction pour voir les détailles du produit choisi sur sa propre page :
+function main() {
+  storage.getItemQty(); // Pour afficher le nombre de produit dans le panier à côté de l'icône de panier
+  check404();  // Pour vérifier si la page existe ou pas
+  getArticle(id); // Pour afficher les détailles et les variétés du produit choisi
+}
+
+function check404() {
+  window.addEventListener("error", (e) => {
+      mainContainer.innerHTML = `<p>La page que vous cherchez n'a pas été trouvée. <br><br> <a href="index.html">Retourner à la page d'accueil Orinoco </a></p>`;
+      mainContainer.style.padding = "25vh 0";
+      mainContainer.style.fontSize = "25px";
+      mainContainer.style.textAlign = "center";
+    },
+    true
+  );
+}
+
 function getArticle(id) {
   fetch(`http://localhost:3000/api/teddies/${id}`)
-  
-    //   .then(function (response) {
-    //     console.log(response); //Logs a response, type 'cors'
-    //     return response.json();
-    //   })
     
     .then(response => response.json())
     
     .catch((error) => {
       console.log(error);
-      container.innerHTML = `Il y a eu un problème : ${error}`;
-      container.style.textAlign = "center";
-      container.style.padding = "40px";
+      mainContainer.innerHTML = `Il y a eu un problème : ${error}`;
+      mainContainer.style.textAlign = "center";
+      mainContainer.style.padding = "25vh 0";
+      mainContainer.style.fontSize = "25px";
     })
     
     // Récuperer et afficher les infos du produit choisi
@@ -71,20 +83,11 @@ function getArticle(id) {
       addToBasketBtn.addEventListener("click", addToBasket);
 
     });
-  }
+}
 
-  // -------- Local Storage ----------
+function addToBasket() {
 
-  const storage = new Storage();
-  let itemsArray = storage.getItemsFromLS();
-
-  // Pour afficher le nombre de produit dans le panier à côté de l'icône de panier
-  storage.getItemQty();
-
-  function addToBasket() {
-    console.log("Product ID : " + productDiv.id +", Product quantity: " + productQuantity.value + ", Product color: " + productColor.value);
-  
-    // Création d'un nouvel élément à mettre dans le panier:
+    // Création d'un nouvel élément à mettre dans le panier :
     let newItem = {
       _id : id,
       name : productName.innerHTML,
@@ -96,12 +99,12 @@ function getArticle(id) {
   
     console.log("Un nouvel élément a été créé : ");
     console.log(newItem);
-    console.log(newItem._id);
   
+    let itemsArray = storage.getItemsFromLS();
+
     // Pour ajouter le premier élément au panier qui est vide :
     if(itemsArray.length === 0) {
       itemsArray.push(newItem);
-      console.log("Le premier élément a été ajouté au panier");
     } else {
 
       // On teste si le produit est déjà présent (même ID, même couleur), donc on parcourt l'itemsArray avec forEach et compare ID et couleurs de chaque élément du tableau.
@@ -125,28 +128,27 @@ function getArticle(id) {
     localStorage.setItem("itemsArray", JSON.stringify(itemsArray));
 
     confirmationBox();
+}
 
-  }
+function confirmationBox() {
 
-  function confirmationBox() {
+  const confirmationContainer = document.querySelector(".confirmation__container");
+  const closeBoxBtn = document.querySelector(".close__box");
+  const confirmationText = document.querySelector(".confirmation__product--infos");
+  const imgInBox = document.querySelectorAll(".img")[1];
 
-      const confirmationContainer = document.querySelector(".confirmation__container");
-      const closeBoxBtn = document.querySelector(".close__box");
-      const confirmationText = document.querySelector(".confirmation__product--infos");
-      const imgInBox = document.querySelectorAll(".img")[1];
-  
-      confirmationContainer.style.visibility = "visible";
-      productDiv.style.visibility = "hidden";
-  
-      imgInBox.src = productImg.src;
-      let subTotal = parseFloat(productPrice.innerHTML)*(productQuantity.value);
-  
-      confirmationText.innerHTML = `${productQuantity.value} x ${productName.innerHTML} (${productColor.value}) :  <b> ${ new Intl.NumberFormat("fr-FR", {
-        style: "currency",
-        currency: "EUR",
-      }).format(subTotal)} <b>`;
-  
-      closeBoxBtn.addEventListener("click", () => {
-        setTimeout("location.reload(true);", 10);
-      });
-  }
+  confirmationContainer.style.visibility = "visible";
+  productDiv.style.visibility = "hidden";
+
+  imgInBox.src = productImg.src;
+  let subTotal = parseFloat(productPrice.innerHTML)*(productQuantity.value);
+
+  confirmationText.innerHTML = `${productQuantity.value} x ${productName.innerHTML} (${productColor.value}) :  <b> ${ new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(subTotal)} <b>`;
+
+  closeBoxBtn.addEventListener("click", () => {
+    setTimeout("location.reload(true);", 10);
+  });
+}

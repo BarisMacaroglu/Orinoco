@@ -125,67 +125,43 @@ commandeBtn.addEventListener("click", (e) => {
 function confirmOrder() {
 
     let itemsArray = JSON.parse(localStorage.getItem("itemsArray"));
-    // console.log(itemsArray);
     
     let itemsID = [];
     itemsArray.forEach(function(item) {
-        console.log(item._id);
         itemsID.push(item._id);
     });
-    
-    // console.log(itemsID);
     
     // Il faut un objet de contact et un tableau d'ID des produits :
     const order = {
         contact: Form.createContactObj(),
         products: itemsID,
-    };
-
-    // Un objet order a été créé
-
-    // const order = {
-    //     contact: {
-    //         firstName: firstName.value.trim(),
-    //         lastName: lastName.value.trim(),
-    //         address: address.value.trim(),
-    //         city: city.value.trim(),
-    //         email: email.value.trim(),
-    //     },
-    //     products: itemsID,
-    // };
-
-    //    console.log(order);
-    //    console.log(typeof order);
-    //    console.log(JSON.stringify(order));
+    };  // Un objet order a été créé
             
     // ---- Envoie de la commande (la requête POST) au back-end ----
 
     // Création de l'en-tête de la requête
-    // L'objet order doit être converti au String
     const options = {
         method: 'POST',
-        body: JSON.stringify(order),
+        body: JSON.stringify(order),  // L'objet order doit être converti au String
         headers: {
             "Content-type": "application/json; charset=UTF-8",
         },
     };
-    // console.log(options);
     
     // Préparation du prix formaté pour l'afficher sur la prochaine page
     let priceConfirmation = document.querySelector(".bill__info--total").innerText;
 
     // Envoie de la requête avec l'en-tête. 
     // On changera la page et le localStorage ne contiendra que l'orderId (envoyé par le back-end) et le prix total.
-    
     fetch("http://localhost:3000/api/teddies/order", options)
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
-        // localStorage.clear();
+        localStorage.clear(); // Comme le back-end a confirmé l'achat et envoyé une réponse, on vide le panier.
         localStorage.setItem("orderId", data.orderId);
         localStorage.setItem("total", priceConfirmation);
         
-        document.location.href = "/front-end/confirmation.html";
+        document.location.href = "/confirmation.html";
     })
     .catch((err) => console.log("Il y a une erreur : " + err));        
 }

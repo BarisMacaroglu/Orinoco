@@ -54,10 +54,12 @@ class Form {
 
 }
 
+// Renvoie "true" si l'argument passé en paramètre est une adresse e-mail valide
 function isEmail(email) {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
 
+// Renvoie "true" si l'argument passé en paramètre ne contient que des lettres
 function isText(arg) {
     let letters = /^[A-Za-z]+$/;
     // let letters = /([A-Za-z])\w+-/;
